@@ -22,6 +22,7 @@ gem 'bson_ext'
 gem 'therubyracer'
 gem "chartkick"
 gem 'net-ssh'
+gem  'backup'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'

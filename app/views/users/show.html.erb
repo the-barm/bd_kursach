@@ -10,9 +10,10 @@
     <section class="stats">
       <%= render 'shared/stats' %>
     </section>
-    <section>
+    <% if @mp_stats.any? %>
+      <h4> Post statistics </h4>
       <%= column_chart @mp_stats %>
-    </section>
+    <% end %>
   </aside>
   <div class="col-md-8">
     <%= render 'follow_form' if logged_in? %>

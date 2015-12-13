@@ -1,5 +1,5 @@
 class MicropostsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy]
+  before_action :logged_in_user, only: [:create, :destroy, :index]
   before_action :correct_user,   only: :destroy
 
   def create
@@ -12,6 +12,10 @@ class MicropostsController < ApplicationController
       @feed_items = []
       render 'static_pages/home'
     end
+  end
+
+  def index 
+    @microposts = params[:search] ? Micropost.where(content: /#{Regexp.escape(params[:search])}/i).all.paginate(page: params[:page]) : params[:search]
   end
 
   def destroy
@@ -27,7 +31,11 @@ class MicropostsController < ApplicationController
     end
     
     def correct_user
-      @micropost = current_user.microposts.find(params[:id]).first
+      if current_user.admin?
+        @micropost = Micropost.find(params[:id])
+      else
+        @micropost = current_user.microposts.find(params[:id])
+      end
       redirect_to root_url if @micropost.nil?
     end
 end
