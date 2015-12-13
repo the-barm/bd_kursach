@@ -16,6 +16,10 @@ class Micropost
     User.find(user_id)
   end
 
+  def cut_date
+    self.created_at.strftime('%d/%m/%Y')
+  end
+
  
   private
 

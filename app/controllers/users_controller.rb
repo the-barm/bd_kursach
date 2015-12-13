@@ -12,6 +12,10 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
+    @mp_stats = @user.microposts.group_by(&:cut_date)
+    @mp_stats.each do |k, v|
+      @mp_stats[k] = v.count
+    end
   end 
   
   def new

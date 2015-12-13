@@ -21,6 +21,7 @@ gem 'mongo_mapper'
 gem 'bson_ext'
 gem 'therubyracer'
 gem "chartkick"
+gem 'net-ssh'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
