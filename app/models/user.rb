@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :microposts, dependent: :destroy
+  has_many :microposts
   has_many :active_relationships, class_name:  "Relationship",
                                   foreign_key: "follower_id",
                                   dependent:   :destroy
@@ -19,7 +19,8 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
-  
+  before_destroy :clean_microposts
+
   def self.microposts(id)
     Micropost.where(user_id: self.id).sort(:created_at.desc)
   end
@@ -116,5 +117,7 @@ class User < ActiveRecord::Base
       self.activation_digest = User.digest(activation_token)
     end
   
-  
+    def clean_microposts
+      Micropost.destroy_all(user_id: self.id)
+    end
 end
